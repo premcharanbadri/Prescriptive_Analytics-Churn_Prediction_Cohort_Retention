@@ -8,6 +8,6 @@ To translate the machine learning and SQL outputs into actionable business intel
 
 **Click the image below to explore all three interactive visualizations on Tableau Public:**
 
-[![Executive Churn and Retention Visualizations](assets/dashboard_preview.png)]([https://public.tableau.com/views/YOUR-WORKBOOK-NAME/YOUR-DASHBOARD-NAME](https://public.tableau.com/authoring/ExecutiveCustomerSuccessPredictiveChurnProject/Sheet3/Dashboard%201#3))
+[Executive Churn and Retention Visualizations](https://public.tableau.com/authoring/ExecutiveCustomerSuccessPredictiveChurnProject/Sheet3/Dashboard%201#3)
 
 *Note: You can navigate between the different views using the tabs on the Tableau Public page.*
