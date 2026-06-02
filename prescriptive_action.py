@@ -2,14 +2,14 @@ import pandas as pd
 import numpy as np
 
 def build_rfm_features(data_dir='data/'):
-    print("📥 Loading core transaction and demographic tables...")
+    print("Core transaction and demographic tables:")
     txns = pd.read_csv(f"{data_dir}transaction_data.csv")
     demos = pd.read_csv(f"{data_dir}hh_demographic.csv")
     
     # 1. Establish the "Current Date" of the dataset
     current_week = txns['WEEK_NO'].max()
     
-    print("⚙️ Engineering Recency, Frequency, Monetary, and Velocity metrics...")
+    print("Recency, Frequency, Monetary, and Velocity metrics:")
     
     # Get the FIRST and LAST purchase week for every household
     rfm = txns.groupby('household_key').agg(
@@ -43,7 +43,7 @@ def build_rfm_features(data_dir='data/'):
 
 if __name__ == "__main__":
     feature_matrix = build_rfm_features()
-    print(f"✅ Feature Matrix Built: {feature_matrix.shape[0]} households, {feature_matrix.shape[1]} features.")
+    print(f"Feature Matrix: {feature_matrix.shape[0]} households, {feature_matrix.shape[1]} features.")
     print(feature_matrix['is_churned'].value_counts(normalize=True))
 
 
@@ -52,7 +52,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, roc_auc_score
 
 def train_churn_model(df):
-    print("\n🧠 Preparing data for Machine Learning...")
     
     # 1. One-Hot Encoding for categorical demographics
     # Converts columns like 'INCOME_DESC' into binary columns (e.g., 'INCOME_DESC_50-74K')
@@ -70,7 +69,7 @@ def train_churn_model(df):
     positive_class_count = (y_train == 1).sum()
     scale_weight = negative_class_count / positive_class_count
     
-    print(f"⚖️ Applying scale_pos_weight of {scale_weight:.2f} to handle class imbalance.")
+    print(f"Applying scale_pos_weight of {scale_weight:.2f} to handle class imbalance.")
     
     # 4. Initialize and Train XGBoost
     model = xgb.XGBClassifier(
@@ -82,14 +81,14 @@ def train_churn_model(df):
         random_state=42
     )
     
-    print("⏳ Training XGBoost Classifier...")
+    print("XGBoost Classifier:")
     model.fit(X_train, y_train)
     
     # 5. Evaluate the Model
     predictions = model.predict(X_test)
     probabilities = model.predict_proba(X_test)[:, 1] # Extract the % risk of churn
     
-    print("\n📊 Model Evaluation Metrics:")
+    print("\nModel Evaluation Metrics:")
     print("-" * 30)
     print(classification_report(y_test, predictions))
     print(f"ROC-AUC Score: {roc_auc_score(y_test, probabilities):.3f}")
@@ -102,7 +101,7 @@ if __name__ == "__main__":
     model, test_data, churn_probs = train_churn_model(feature_matrix)
 
 def generate_prescriptive_campaign(df_scored):
-    print("🎯 Initializing Prescriptive Action Engine...")
+    print(" Prescriptive Action:")
     
     # We define business thresholds based on our model's confidence and customer value
     CHURN_THRESHOLD = 0.70  # Only intervene if the model is 70%+ sure they will churn
@@ -127,7 +126,7 @@ def generate_prescriptive_campaign(df_scored):
     total_cost = df_scored['estimated_campaign_cost'].sum()
     revenue_protected = df_scored.loc[vip_mask | standard_mask, 'monetary_value'].sum()
     
-    print("\n📈 [ EXECUTIVE CAMPAIGN SUMMARY ]")
+    print("\n[ EXECUTIVE CAMPAIGN SUMMARY ]")
     print(f"Total Households Flagged for Rescue: {total_interventions}")
     print(f"Total Campaign Investment Required: ${total_cost:,.2f}")
     print(f"Historical Revenue at Risk (Protected): ${revenue_protected:,.2f}")
@@ -143,4 +142,4 @@ if __name__ == "__main__":
     # Run the ROI Engine
     actionable_df = generate_prescriptive_campaign(test_data)
     actionable_df.to_csv("prescriptive_campaign_target_list.csv", index=False)
-    print("\n💾 Campaign Targeting List saved as 'prescriptive_campaign_target_list.csv'")
+    print("\nCampaign Targeting List saved as 'prescriptive_campaign_target_list.csv'")

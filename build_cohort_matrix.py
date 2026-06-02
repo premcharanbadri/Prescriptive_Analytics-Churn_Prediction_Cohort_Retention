@@ -1,11 +1,11 @@
 import pandas as pd
 
 def build_standalone_cohort_matrix(data_dir='data/'):
-    print("📥 Loading raw transaction data...")
-    # This reads the exact same file your churn model uses
+    print("Raw transaction data:")
+    # This reads the exact same file the churn model uses
     txns = pd.read_csv(f"{data_dir}transaction_data.csv")
     
-    print("⚙️ Calculating Acquisition Weeks...")
+    print("Acquisition Weeks:")
     # 1. Find the exact week each household made their first purchase
     acquisition = txns.groupby('household_key')['WEEK_NO'].min().reset_index()
     acquisition.rename(columns={'WEEK_NO': 'acquisition_week'}, inplace=True)
@@ -16,7 +16,7 @@ def build_standalone_cohort_matrix(data_dir='data/'):
     # 3. Calculate "Period Distance" (Weeks since they started)
     df['weeks_since_acquisition'] = df['WEEK_NO'] - df['acquisition_week']
     
-    print("📊 Aggregating Cohort Retention...")
+    print("Aggregated Cohort Retention:")
     # 4. Group the data to count unique active households per period
     cohort_data = df.groupby(['acquisition_week', 'weeks_since_acquisition']).agg(
         active_households=('household_key', 'nunique')
@@ -35,8 +35,8 @@ def build_standalone_cohort_matrix(data_dir='data/'):
     # 7. Save the final payload for Tableau
     output_file = "cohort_retention_matrix.csv"
     cohort_data.to_csv(output_file, index=False)
-    print(f"✅ Success! Generated {len(cohort_data)} cohort periods.")
-    print(f"💾 Saved matrix to {output_file}. Ready for Tableau!")
+    print(f"Generated {len(cohort_data)} cohort periods across {cohort_data['acquisition_week'].nunique()} acquisition weeks.")
+    print(f"Saved matrix to {output_file}")
 
 if __name__ == "__main__":
     build_standalone_cohort_matrix()

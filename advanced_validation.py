@@ -3,21 +3,20 @@ import numpy as np
 from scipy import stats
 
 def run_advanced_testing_suite():
-    print("🚀 Starting Enterprise Validation & Testing Suite...\n")
-    
-    # Load inputs generated from your previous scripts
+    print("Enterprise Validation & Testing:\n")
+
     try:
         df_target = pd.read_csv("prescriptive_campaign_target_list.csv")
         df_raw = pd.read_csv("data/transaction_data.csv")
     except FileNotFoundError as e:
-        print(f"❌ Error loading files: {e}")
+        print(f"Error loading files: {e}")
         print("Please ensure your modeling script has run and 'data/transaction_data.csv' exists.")
         return
 
     # =========================================================================
     # TEST 1: DATA INTEGRITY & RECONCILIATION (UPDATED)
     # =========================================================================
-    print("🔍 TEST 1: Executing Source-to-Target Data Reconciliation...")
+    print("TEST 1: Executing Source-to-Target Data Reconciliation:")
     
     # Calculate the true historical LTV per household directly from the raw ledger
     raw_ltv_distribution = df_raw.groupby('household_key')['SALES_VALUE'].sum().round(2).unique()
@@ -36,16 +35,16 @@ def run_advanced_testing_suite():
     size_matches = abs(expected_test_size - actual_test_size) <= 1
     
     if financials_match and size_matches:
-        print("✅ Data Integrity Pass: 100% of target records and financial metrics reconcile with raw source ledger.\n")
+        print("Data Integrity Pass: 100% of target records and financial metrics reconcile with raw source ledger.\n")
     else:
-        print(f"⚠️ Data Integrity Warning: Structural discrepancy detected.")
+        print(f"Data Integrity Warning: Structural discrepancy detected.")
         print(f"Financial metrics align: {financials_match}")
         print(f"Expected test size: {expected_test_size}, Actual test size: {actual_test_size}\n")
 
     # =========================================================================
     # TEST 2: SCENARIO & SENSITIVITY TESTING (WHAT-IF ANALYSIS)
     # =========================================================================
-    print("📈 TEST 2: Running Financial Sensitivity Matrix (CFO Stress Test)...")
+    print("TEST 2: Financial Sensitivity Matrix (Stress Test):")
     print("-" * 65)
     print(f"{'Redemption Rate':<20}{'Target Households':<20}{'Campaign Cost':<15}{'Net ROI (Saved)'}")
     print("-" * 65)
@@ -64,12 +63,12 @@ def run_advanced_testing_suite():
         
         print(f"{rate*100:>13.0f}% {total_flagged:>16}       ${base_campaign_cost:<13,.2f} ${net_return:,.2f}")
     print("-" * 65)
-    print("✅ Sensitivity Matrix complete. Break-even threshold identified.\n")
+    print("Break-even threshold identified.\n")
 
     # =========================================================================
     # TEST 3: A/B TESTING & CAUSAL UPLIFT VALIDATION (SIMULATION)
     # =========================================================================
-    print("🧪 TEST 3: Simulating In-Market A/B Holdout Significance Test...")
+    print("TEST 3: In-Market A/B Holdout Significance Test:")
     
     # Simulate a 90/10 split on the flagged households
     np.random.seed(42) 
@@ -92,9 +91,9 @@ def run_advanced_testing_suite():
     print(f"Statistical Chi-Square P-Value: {p_value:.4f}")
     
     if p_value < 0.05:
-        print("✅ Statistical Pass: Causal uplift is statistically significant (p < 0.05). Reject Null Hypothesis.")
+        print("Statistical Pass: Causal uplift is statistically significant (p < 0.05). Reject Null Hypothesis.")
     else:
-        print("⚠️ Statistical Fail: Sample size too small to prove causality in production.")
+        print("Statistical Fail: Sample size too small to prove causality in production.")
 
 if __name__ == "__main__":
     run_advanced_testing_suite()
