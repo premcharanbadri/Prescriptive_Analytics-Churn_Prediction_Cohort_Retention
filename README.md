@@ -6,7 +6,20 @@ In high-frequency retail environments, businesses suffer from **"Silent Churn"**
 
 ### The Objective
 
-To engineer an end-to-end, automated machine learning pipeline and data storytelling ecosystem using a **Buy 'Till You Die (BTYD)** framework. The system dynamically predicts individual household churn risk, cross-references that risk against historical monetary values, prescribes automated, margin-optimized financial interventions, and visualizes the macroeconomic health of the customer base.
+To design an end-to-end, automated machine learning pipeline and data storytelling ecosystem using a **Buy 'Till You Die (BTYD)** framework. The system dynamically predicts individual household churn risk, cross-references that risk against historical monetary values, prescribes automated, margin-optimized financial interventions, and visualizes the macroeconomic health of the customer base.
+
+---
+
+## Executive Visualizations & Dashboard
+
+1. **Micro View (Decision Boundary):** A Prescriptive Action Matrix segmenting households by churn risk and LTV.
+2. **Macro View (Heatmap):** A 52-Week Cohort Retention matrix tracking customer half-life.
+3. **Financial KPI (Bullet Chart):** An ROI overlay proving the exact top-line revenue protected by the campaign.
+
+
+## [Click here: Executive Churn and Retention Visualizations via Tableau ](https://public.tableau.com/views/ExecutiveCustomerSuccessPredictiveChurnProject/Dashboard1?:language=en-GB&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+
+*Note: You can navigate between the different views(sheets) using the tabs on the Tableau Public page to view individual reports.*
 
 ---
 
@@ -148,14 +161,3 @@ Statistical Fail: Sample size too small to prove causality in production.
 * **Statistical Power Audit:** The simulated A/B test showed a massive lift in the treatment group retention (76.5%) vs the holdout group (57.1%). However, because the prescriptive engine was so selective, the resulting holdout control sample size was too small to achieve statistical significance (**P-Value of 0.5072**). This logged output provides excellent interview commentary to prove you understand statistical power constraints and rolling sample aggregation in live production.
 
 ---
-
-## Executive Visualizations & Dashboard
-
-1. **Micro View (Decision Boundary):** A Prescriptive Action Matrix segmenting households by churn risk and LTV.
-2. **Macro View (Heatmap):** A 52-Week Cohort Retention matrix tracking customer half-life.
-3. **Financial KPI (Bullet Chart):** An ROI overlay proving the exact top-line revenue protected by the campaign.
-
-
-[Executive Churn and Retention Visualizations via Tableau ](https://public.tableau.com/authoring/ExecutiveCustomerSuccessPredictiveChurnProject/Sheet3/Dashboard%201#3)
-
-*Note: You can navigate between the different views(sheets) using the tabs on the Tableau Public page to view individual reports.*
